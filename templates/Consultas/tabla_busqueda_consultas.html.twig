@@ -1,0 +1,24 @@
+<table class="tbl" width="400">
+    {% if consultas|length > 0 %}
+        <tr class="tbl-row">
+            {% set keys = consultas[0]|keys  %}
+            {% for i  in 1..keys|length-1 %}
+                <td><b>{{ keys[i] }}</b></td>
+            {% endfor %}
+            <td><b>Cargar</b></td>
+            <td><b>Borrar</b></td>
+        </tr>
+
+        {% for consulta in consultas %}
+            <tr class="{{ cycle(['normal', 'alterna'], loop.index0) }}">
+                <td>{{ consulta['Fecha'] }}</td>
+                <td>{{ consulta['Hora'] }}</td>
+                <td>{{ consulta['Consulta'] }}</td>
+                <td onclick="BtnConCargar('{{ consulta['ID'] }}')"> Cargar </td>
+                <td onclick="BtnConBorrar({{ consulta['ID'] }}, '{{ consulta['Consulta'] }}')">
+                    <img src="images/delete.gif" class="Icono" alt="Borrar '{{ consulta['Consulta'] }}'" title="Borrar '{{ consulta['Consulta'] }}'">
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>

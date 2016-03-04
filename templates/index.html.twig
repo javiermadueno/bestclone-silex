@@ -1,0 +1,154 @@
+{% extends "base.html.twig" %}
+
+{% block contenido %}
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#ccaa" aria-controls="home" role="tab" data-toggle="tab">Comunidades
+                Autonomas</a></li>
+        <li role="presentation"><a href="#provincias" aria-controls="profile" role="tab"
+                                   data-toggle="tab">Provincias</a></li>
+        <li role="presentation"><a href="#municipios" aria-controls="messages" role="tab"
+                                   data-toggle="tab">Municipios</a></li>
+        <li role="presentation"><a href="#localidades" aria-controls="settings" role="tab"
+                                   data-toggle="tab">Localidades</a></li>
+        <li role="presentation"><a href="#calles" aria-controls="settings" role="tab" data-toggle="tab">Calles</a></li>
+        <li role="presentation"><a href="#codigo_postal" aria-controls="settings" role="tab" data-toggle="tab">Codigo
+                Postal</a></li>
+        <li role="presentation"><a href="#gisx" aria-controls="settings" role="tab" data-toggle="tab">GisX</a></li>
+        <li role="presentation"><a href="#productos" aria-controls="settings" role="tab" data-toggle="tab">Productos</a>
+        </li>
+        <li role="presentation"><a href="#consultas" aria-controls="settings" role="tab" data-toggle="tab">Consultas</a>
+        </li>
+        <li role="presentation"><a href="#estadisticas" aria-controls="settings" role="tab" data-toggle="tab">Estadisticas</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="ccaa">
+            <h1>Comunidades Autonomas</h1>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Autonomia</th>
+                            <th>Añadir</th>
+                        </tr>
+                        </thead>
+                        {% for comunidad in comunidades %}
+                            <tr>
+                                <td>{{ comunidad.AUTONOMIA }}</td>
+                                <td><a class="btn  btn-sm btn-success" href="#"><i
+                                                class="glyphicon glyphicon-plus-sign"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="provincias">
+            <h1>Provincias</h1>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Autonomia</th>
+                            <th>Provincia</th>
+                            <th>Añadir</th>
+                        </tr>
+                        </thead>
+                        {% for provincia in provincias %}
+                            <tr>
+                                <td>{{ provincia.AUTONOMIA }}</td>
+                                <td>{{ provincia.PROVINCIA }}</td>
+                                <td><a class="btn btn-sm btn-success" href="#"><i
+                                                class="glyphicon glyphicon-plus-sign"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="municipios">
+            <h1>Municipios</h1>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="localidades">
+            <h1>Localidades</h1>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="calles">
+            <h1>Calles</h1>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="codigo_postal">
+            <h1>Codigo Postal</h1>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="gisx">
+            <h1>Gisx</h1>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="productos">
+            <h1>Productos</h1>
+
+            <div class="row">
+                <div class="col-md-1">
+                    Productos:
+                </div>
+                <div class="col-md-2">
+                    <select name="productos" id="productos">
+                        <option value="-1">Seleccione un producto</option>
+                        {% for producto in productos %}
+                            <option value="{{ producto.ID }}">{{ producto.Nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>Niveles de Afinidad</h5>
+                    <div class="list-group">
+                        {% for i in 0..5 %}
+                            <div class="list-group-item">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" class="chk_nivel" id="nivel{{ i }}" value="{{ i }}">
+                                        Nivel {{ i }}
+                                    </label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="consultas">
+            <h1>Consultas</h1>
+        </div>
+        <div role="tabpanel" class="tab-pane " id="estadisticas">
+            <h1>Estadisticas</h1>
+        </div>
+
+    </div>
+{% endblock %}
+
+  {% block javascript %}
+      <script type="text/javascript">
+          $(document).on('ready', function(){
+              $.ajax({
+                  url: '{{ path('consultas') }}',
+                  data: {
+                      tipo: 'DelCCAAAll',
+                      User: 42,
+                      Consulta: -1,
+                      ID: '05'
+                  }
+              }).done(function(data){
+                  console.log(data);
+              }).error(function(){
+                  console.log('ERROR');
+              });
+          });
+      </script>
+  {% endblock %}

@@ -1,0 +1,15 @@
+
+{% if tipo == 'Disponibles' %}
+    {% set from, to, index  = 'Disponibles', 'Seleccionados', 0 %}
+{% elseif tipo == 'Seleccionados' %}
+    {% set from, to, index  = 'Seleccionados', 'Disponibles', 0 %}
+{% elseif tipo == 'Orden' %}
+    {% set from, to, index  = 'Orden', 'Seleccionados', 2 %}
+{% endif %}
+
+
+<select id="{{ tipo }}" name="{{ tipo }}" size="8" multiple="multiple" style="width:120px;height:120px"  ondblclick="moveOptions(this.form.{{ from }}, this.form.{{ to }}, {{ index }});" class="formuModWhite">
+    {% for agrupamiento in agrupamientos %}
+        <option value="{{ agrupamiento.ID }}">{{ agrupamiento.Descripcion }}</option>
+    {% endfor %}
+</select>

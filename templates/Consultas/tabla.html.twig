@@ -1,0 +1,48 @@
+{% import _self as self %}
+
+{% if parametros|length > 0 %}
+    {% spaceless %}
+        <table class="tbl">
+            <caption class="Titulo">Elementos Seleccionados</caption>
+
+            {% set keys = parametros[0]|keys %}
+            <tr class="tbl-row">
+                {% for i in 1..keys|length-1 %}
+                    <td><b>{{ keys[i] }}</b></td>
+                {% endfor %}
+            </tr>
+
+            {% for parametro in parametros %}
+                {# Esta macro calcula la funcion de javascript que se añade en el onclick #}
+                {% set funcion_js = self.funcion_js(funcion, parametro, indice) %}
+
+                <tr class="{{ cycle(['normal', 'alterna'], loop.index0) }}">
+                    {% for i in 1..parametro|keys|length-1 %}
+                        <td onclick="{{ funcion_js }}">{{ parametro[keys[i]] }}</td>
+                    {% endfor %}
+
+                    <td onclick="{{ funcion_js }}">
+                        {% if funcion starts with 'Del' %}
+                            <img src="images/delete.gif" class="Icono" alt="Quitar '{{ parametro[keys[1]] }}' "
+                                 title="Quitar '{{ parametro[keys[1]] }}'">
+                        {% else %}
+                            <img src="images/insert.gif" class="Icono" alt="Insertar '{{ parametro[keys[1]] }}' "
+                                 title="Insertar '{{ parametro[keys[1]] }}'">
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endspaceless %}
+{% endif %}
+
+
+{% macro funcion_js(funcion, parametro, indice) %}
+    {% set keys = parametro|keys %}
+
+    {% if funcion == 'DelDis' %}
+        {{ funcion }}('{{ parametro[keys[0]]~parametro[keys[1]]~parmetro[keys[2]] }}','{{ parametro[keys[1]]~'-'~ parametro[keys[1]] }}')
+    {% else %}
+        {{ funcion }}('{{ parametro[keys[indice]] }}','{{ parametro[keys[1]] }}')
+    {% endif %}
+{% endmacro %}

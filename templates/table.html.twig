@@ -1,0 +1,18 @@
+<table>
+    <caption class="Titulo">Elementos encontrados</caption>
+    <thead>
+        <tr class="tbl-row">
+            {% for campo, value in datos %}
+                <th><span>{{ campo }}</span></th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for campo, value in datos %}
+            <tr class="{{ cycle(['normal', 'alterna'], loop.index0) }}">
+                <td onclick="{{ funcion_js }}('{{ value[0]~value[1]~value[2] }}', '{{ value[1]~'-'~value[2] }}')"></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
